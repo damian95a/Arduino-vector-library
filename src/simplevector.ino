@@ -9,6 +9,20 @@ SimpleVector<T>::SimpleVector(int n){
 }
 
 template <typename T>
+SimpleVector<T>::SimpleVector(int n, T val){
+  // alloc an array
+  // and init it
+  
+  s = n; // set size
+  elem = new T[n]; // alloc array
+
+  for(auto p=elem; p<elem+s; ++p){
+    *p = val;
+  }
+}
+
+
+template <typename T>
 void SimpleVector<T>::push_back(const T& value){
   // add element at the end
 
@@ -152,4 +166,14 @@ template <typename T>
 T * SimpleVector<T>::end() const{
   // return pointer to element next to the last
   return elem+s;
+}
+
+template <typename T>
+bool SimpleVector<T>::is_empty() const{
+  // returns true if vector is empty
+  
+  if(s>0)
+    return false;
+  else
+    return true;
 }

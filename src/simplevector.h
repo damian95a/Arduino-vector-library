@@ -8,10 +8,12 @@ class SimpleVector{
   T * elem; // Array
 
   public:
-  // Dmpy vector
+  // Empy vector
   SimpleVector(){s=0; elem=nullptr;}
   // n-element vector
   SimpleVector(int n);
+  // fill n-element vector
+  SimpleVector(int n, T var);
 
   // Add element at the end
   void push_back(const T& value);
@@ -29,7 +31,9 @@ class SimpleVector{
   int size() const; // return array size
   T * begin() const; // return pointer to the first element
   T * end() const;  // return pointer to the last element
-
+  // ask if vector is empty
+  bool is_empty() const;
+  
   // free the memory
   ~SimpleVector(){s = 0; delete[] elem;}
 };
