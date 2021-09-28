@@ -3,7 +3,7 @@
 
 template <typename T>
 class SimpleVector{
-  private:
+  protected:
   int s;  // Size of array
   T * elem; // Array
 
