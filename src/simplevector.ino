@@ -1,21 +1,13 @@
 #include "simplevector.h"
 
 template <typename T>
-SimpleVector<T>::SimpleVector(int n){
-  // alloc an array
-  
-  s = n; // set size
-  elem = new T[n]; // alloc array
-}
+SimpleVector<T>::SimpleVector(int n) : s(n){
+  elem = malloc(sizeof(T)*n);
+  }
 
 template <typename T>
-SimpleVector<T>::SimpleVector(int n, T val){
-  // alloc an array
-  // and init it
-  
-  s = n; // set size
-  elem = new T[n]; // alloc array
-
+SimpleVector<T>::SimpleVector(int n, T val) : s(n){
+  elem = malloc(sizeof(T)*n);
   for(auto p=elem; p<elem+s; ++p){
     *p = val;
   }
@@ -27,7 +19,7 @@ void SimpleVector<T>::push_back(const T& value){
   // add element at the end
 
   // alloc temporary array
-  T* tmp = new T[s+1];
+  T tmp[s+1];
   // copy vector to the new array
   for(int i=0; i<s; ++i){
     tmp[i] = elem[i];
@@ -37,23 +29,21 @@ void SimpleVector<T>::push_back(const T& value){
   tmp[s] = value;
   s+=1;
 
-  // if elem has been empty before
-  // remove previous array
-  if (s>1)
-    delete[] elem;
+  elem = realloc(elem,sizeof(T)*s);
 
   // assign temporary array as the vector
-  elem = tmp;
-  tmp = nullptr;
+  for(int i=0; i<s; ++i){
+    elem[i] = tmp[i];
+  }
 }
 
 template <typename T>
-void SimpleVector<T>::push_back(const T&& value){
+void SimpleVector<T>::push_back(T&& value){
   // add element at the end
   // (reference to the temporary value)
 
   // alloc temporary array
-  T* tmp = new T[s+1];
+  T tmp[s+1];
   // copy vector to the new array
   for(int i=0; i<s; ++i){
     tmp[i] = elem[i];
@@ -63,14 +53,12 @@ void SimpleVector<T>::push_back(const T&& value){
   tmp[s] = value;
   s+=1;
 
-  // if elem has been empty before
-  // remove previous array
-  if (s>1)
-    delete[] elem;
+  elem = realloc(elem,sizeof(T)*s);
 
   // assign temporary array as the vector
-  elem = tmp;
-  tmp = nullptr;
+  for(int i=0; i<s; ++i){
+    elem[i] = tmp[i];
+  }
 }
 
 template <typename T>
@@ -85,7 +73,7 @@ T SimpleVector<T>::pop_back(){
     return 32202;
 
   // alloc temporary array
-  T* tmp = new T[s-1];
+  T* tmp = malloc(sizeof(T)*(s-1));
   // copy vector array to the new array
   // (without the last element)
   for(int i=0; i<s-1; ++i){
@@ -98,7 +86,7 @@ T SimpleVector<T>::pop_back(){
   s-=1;
 
   // remove prevoius array
-  delete[] elem;
+  free(elem);
 
   // assign temporary array as the vector
   elem = tmp;
@@ -120,7 +108,7 @@ T SimpleVector<T>::pop_back(T err_val){
     return err_val;
 
   // alloc temporary array
-  T* tmp = new T[s-1];
+  T* tmp = malloc(sizeof(T)*(s-1));
   // copy vector array to the new array
   // (without the last element)
   for(int i=0; i<s-1; ++i){
@@ -133,7 +121,7 @@ T SimpleVector<T>::pop_back(T err_val){
   s-=1;
 
   // remove prevoius array
-  delete[] elem;
+  free(elem);
 
   // assign temporary array as the vector
   elem = tmp;
